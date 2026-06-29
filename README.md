@@ -1,30 +1,30 @@
-# Danylo Kostiv — Portfolio
+# Danylo Kostiv Portfolio
 
-Static site. No build step. Open `index.html` in a browser, or host the folder anywhere.
+Static personal portfolio site for `lilm0ppy/danylo_kostiv.github.io`.
 
 ## Files
-- `index.html` — portfolio homepage (entry point)
-- `case-study.html` — SPIFF Module case study
-- `support.js` — rendering runtime (loaded by both pages; do not edit)
-- `assets/` — images and résumé PDF
-- `.nojekyll` — tells GitHub Pages to serve files as-is
 
-## Editing content
-Copy and headings live directly in `index.html` and `case-study.html`. The text and
-data (work history, skills, hardware list, etc.) are near the bottom of each file inside
-the `<script ... data-dc-script>` block — edit the strings there and save.
+- `index.html` - portfolio homepage
+- `case-study.html` - SPIFF Module case study
+- `support.js` - rendering runtime loaded by both pages
+- `assets/` - images and resume PDF
+- `.nojekyll` - tells GitHub Pages to serve files as-is
 
-> The pages load React from a public CDN (unpkg) at runtime, so the site needs an
-> internet connection to render. GitHub Pages provides this automatically.
+## Local Preview
 
-## Deploy to GitHub Pages
-1. Create a new GitHub repository.
-2. Upload the **contents** of this folder to the repository root
-   (so `index.html` sits at the top level), then commit.
-3. In the repo: **Settings → Pages**.
-4. Under **Build and deployment**, set **Source = Deploy from a branch**,
-   pick your branch (e.g. `main`) and folder **`/ (root)`**, then **Save**.
-5. Wait ~1 minute. Your site goes live at
-   `https://<your-username>.github.io/<repo-name>/`.
+Open `index.html` directly in a browser. The pages load fonts and runtime assets from public CDNs, so an internet connection is needed for the full render.
 
-To use a custom domain later, add it under Settings → Pages → Custom domain.
+## GitHub Pages
+
+This repository is ready to publish from:
+
+- Branch: `main`
+- Folder: `/ (root)`
+- Expected URL: `https://lilm0ppy.github.io/danylo_kostiv.github.io/`
+
+If the URL returns 404, enable Pages in GitHub:
+
+1. Open `https://github.com/lilm0ppy/danylo_kostiv.github.io/settings/pages`.
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+3. Choose branch **main** and folder **/ (root)**.
+4. Save and wait a minute or two for the first deployment.
