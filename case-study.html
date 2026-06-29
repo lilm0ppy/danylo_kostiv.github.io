@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#FAFAF8;color:#1A1917;font-family:'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+:root{--accent:#30423C;--text:#1A1917;--muted:#5C5A54;--border:#E7E6E1;--bg:#FAFAF8;--surface:#FFFFFF;--warn:#A6532D}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none}
+img{display:block}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+@media(max-width:820px){[data-2col]{grid-template-columns:1fr!important}[data-flow]{flex-direction:column!important}[data-flow] .flow-arrow{transform:rotate(90deg)}}
+@media(max-width:560px){[data-sec]{padding-left:24px!important;padding-right:24px!important}}
+#lift-slider{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:rgba(255,255,255,.14);outline:none;cursor:pointer}
+#lift-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:#9BE0C6;border:3px solid #0B120F;box-shadow:0 0 0 1px rgba(155,224,198,.5);cursor:grab}
+#lift-slider::-webkit-slider-thumb:active{cursor:grabbing}
+#lift-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#9BE0C6;border:3px solid #0B120F;cursor:grab}
+#lift-slider:focus-visible{box-shadow:0 0 0 2px rgba(155,224,198,.5)}
+.sig-line{position:relative;flex:1;height:2px;background:linear-gradient(90deg,rgba(48,66,60,.18),rgba(48,66,60,.55))}
+.sig-line::after{content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);border-left:6px solid var(--accent);border-top:4px solid transparent;border-bottom:4px solid transparent}
+.sig-chip{position:absolute;top:-12px}
+@media(max-width:760px){
+.sig-path{flex-direction:column!important;align-items:stretch!important}
+.sig-node{width:100%!important;flex-direction:row!important;text-align:left!important;align-items:center;gap:16px!important}
+.sig-wire{align-self:flex-start!important;margin:8px 0 8px 26px!important;min-height:38px;flex:0 0 auto!important;justify-content:flex-start!important}
+.sig-line{flex:0 0 38px;width:2px;height:38px;background:linear-gradient(180deg,rgba(48,66,60,.18),rgba(48,66,60,.55))}
+.sig-line::after{right:auto;top:auto;left:50%;bottom:-1px;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--accent);border-bottom:none}
+.sig-chip{position:static!important;top:auto!important;margin-left:14px}
+}
+</style>
+</helmet>
+
+<div style="position:relative;background:var(--bg)">
+
+<!-- TOP BAR -->
+<nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(24px,6vw,80px);background:rgba(250,250,248,.92);backdrop-filter:saturate(1.1) blur(8px);-webkit-backdrop-filter:saturate(1.1) blur(8px);border-bottom:1px solid var(--border)">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);transition:color .18s" style-hover="color:var(--text)">← Danylo Kostiv</a>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--accent)">CASE STUDY</span>
+</nav>
+
+<!-- HERO -->
+<header data-sec="" data-screen-label="Case study hero" style="padding:clamp(48px,8vh,96px) clamp(24px,6vw,80px) clamp(40px,5vh,64px)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 18px">SPIFF Module · Axle-weight monitoring prototype</p>
+    <h1 data-reveal="" style="font-size:clamp(30px,4.6vw,52px);font-weight:650;line-height:1.1;letter-spacing:-.01em;margin:0;max-width:16ch">Real-time axle-load estimates and lift-axle control for a heavy truck.</h1>
+    <p data-reveal="" style="font-size:18px;line-height:1.75;color:var(--muted);max-width:720px;margin:24px 0 0">A truck-mounted prototype that uses air-suspension pressure sensors to estimate axle loading, display live information to the driver, and support automated lift-axle control. It combines vehicle electronics, sensor acquisition, software, calibration, data logging, and a touchscreen interface — developed and tested on a commercial dump truck operating in Ontario.</p>
+
+    <figure data-reveal="" style="margin:clamp(32px,5vh,52px) 0 0">
+      <img src="assets/truck.webp" alt="Dump truck used for the prototype, with the monitored axle group visible" style="width:100%;object-fit:contain;border-radius:6px;border:1px solid var(--border);background:#F5F4EF;max-height:520px">
+      <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin:10px 0 0">Test vehicle — commercial dump truck (2006 Kenworth T800), Ontario. Monitored axles: drive tandem and lift axle.</figcaption>
+    </figure>
+
+    <dl data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px 32px;margin:clamp(32px,5vh,48px) 0 0;padding:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Status</dt><dd style="margin:6px 0 0;font-size:15px;line-height:1.5">Functional prototype and field calibration</dd></div>
+      <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">My role</dt><dd style="margin:6px 0 0;font-size:15px;line-height:1.5">System design, hardware integration, software architecture, testing, and documentation</dd></div>
+      <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Platform</dt><dd style="margin:6px 0 0;font-size:15px;line-height:1.5">Raspberry Pi · pressure transducers · ADS1115 ADCs · protected 12V power · relay control · touchscreen dashboard</dd></div>
+      <div><dt style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Period</dt><dd style="margin:6px 0 0;font-size:15px;line-height:1.5">May 2026 – present</dd></div>
+    </dl>
+  </div>
+</header>
+
+<!-- CHALLENGE -->
+<section data-sec="" data-screen-label="Challenge" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border)">
+  <div style="max-width:1080px;margin:0 auto">
+    <div data-2col="" style="display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,72px);align-items:end">
+      <div>
+        <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 18px"><span style="font-size:11px;color:var(--muted)">01</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>The challenge</p>
+        <h2 data-reveal="" style="font-size:clamp(26px,3.6vw,42px);font-weight:650;line-height:1.08;letter-spacing:-.015em;margin:0;text-wrap:balance">Weight you can’t see is weight you can’t manage.</h2>
+      </div>
+      <p data-reveal="" style="font-size:17px;line-height:1.78;color:var(--muted);margin:0">Commercial dump trucks spread their load across several axles, and a driver has no direct read on how it sits. When the distribution is off, the consequences show up fast — and existing monitoring systems are often expensive, hard to repair, or limited in what they report.</p>
+    </div>
+
+    <div data-reveal="" style="margin-top:clamp(36px,5vh,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 56px;border-top:1px solid var(--border)">
+      <sc-for list="{{ problems }}" as="p" hint-placeholder-count="5">
+        <div style="display:flex;gap:18px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--border)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--warn);letter-spacing:.04em;flex-shrink:0">{{ p.n }}</span>
+          <span style="font-size:16px;line-height:1.5">{{ p.t }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-reveal="" style="margin-top:clamp(32px,4vh,44px);display:flex;gap:18px;align-items:flex-start;padding:26px 30px;background:var(--accent);color:#fff;border-radius:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);padding-top:4px;white-space:nowrap">The&nbsp;objective</span>
+      <p style="font-size:clamp(17px,1.9vw,21px);line-height:1.6;margin:0;font-weight:500">Build a serviceable prototype that can measure suspension behaviour, estimate axle loading, show it clearly to the driver, and interact safely with the truck’s existing lift-axle system.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIFT AXLE ANIMATION -->
+<section data-sec="" data-screen-label="Lift axle animation" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border);background:var(--surface)">
+  <div style="max-width:1080px;margin:0 auto">
+    <div data-2col="" style="display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,72px);align-items:end;margin-bottom:clamp(28px,4vh,40px)">
+      <div>
+        <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 18px"><span style="font-size:11px;color:var(--muted)">02</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>How a lift axle works</p>
+        <h2 data-reveal="" style="font-size:clamp(26px,3.6vw,42px);font-weight:650;line-height:1.08;letter-spacing:-.015em;margin:0;text-wrap:balance">Drop the lift axle, and the load has somewhere else to go.</h2>
+      </div>
+      <p data-reveal="" style="font-size:17px;line-height:1.78;color:var(--muted);margin:0">A lift (pusher) axle is raised when the truck runs light and lowered under load, adding a contact point that carries part of the weight. SPIFF estimates each axle’s load and can automate that call. <span style="color:var(--text);font-weight:500">Drag the control below</span> to lower the axle and watch the drive tandem fall back within its limit.</p>
+    </div>
+
+    <div data-reveal="" style="border-radius:12px;overflow:hidden;background:#0E1714;box-shadow:0 28px 64px -34px rgba(15,30,24,.55)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(143,211,188,.1)">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:#9BE0C6">SPIF<span style="color:#46695B">//</span>LIFT-AXLE&nbsp;MODEL</span>
+        <span id="lift-status" style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:#E0875C"><span style="width:7px;height:7px;border-radius:50%;background:currentColor"></span>DRIVE&nbsp;TANDEM&nbsp;OVER&nbsp;LIMIT</span>
+      </div>
+
+      <canvas id="lift-anim" style="width:100%;aspect-ratio:960/360;display:block" aria-label="Technical side view of a dump truck lowering its lift axle to redistribute axle load"></canvas>
+
+      <div style="padding:6px 22px 20px">
+        <div style="display:grid;grid-template-columns:128px 1fr 76px;gap:18px;align-items:center;padding:13px 0;border-top:1px solid rgba(143,211,188,.1)">
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:#CFE7DE">STEER</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5E7A6E">limit 6.0&nbsp;t</div></div>
+          <div style="position:relative;height:9px;border-radius:6px;background:rgba(255,255,255,.07)">
+            <div id="bar-steer" style="position:absolute;inset:0 auto 0 0;border-radius:6px;background:#62C39C;width:27%"></div>
+            <div style="position:absolute;top:-3px;bottom:-3px;width:2px;border-radius:2px;background:rgba(255,255,255,.42);left:30%"></div>
+          </div>
+          <div style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#CFE7DE"><span id="val-steer">5.4</span><span style="color:#5E7A6E"> t</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:128px 1fr 76px;gap:18px;align-items:center;padding:13px 0;border-top:1px solid rgba(143,211,188,.1)">
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:#CFE7DE">DRIVE&nbsp;TANDEM</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5E7A6E">limit 17.0&nbsp;t</div></div>
+          <div style="position:relative;height:9px;border-radius:6px;background:rgba(255,255,255,.07)">
+            <div id="bar-drive" style="position:absolute;inset:0 auto 0 0;border-radius:6px;background:#E0875C;width:93%;transition:width .12s linear,background .25s"></div>
+            <div style="position:absolute;top:-3px;bottom:-3px;width:2px;border-radius:2px;background:rgba(255,255,255,.42);left:85%"></div>
+          </div>
+          <div style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E0875C" id="valwrap-drive"><span id="val-drive">18.6</span><span style="color:#5E7A6E"> t</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:128px 1fr 76px;gap:18px;align-items:center;padding:13px 0;border-top:1px solid rgba(143,211,188,.1)">
+          <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:#CFE7DE">LIFT</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5E7A6E">limit 9.0&nbsp;t</div></div>
+          <div style="position:relative;height:9px;border-radius:6px;background:rgba(255,255,255,.07)">
+            <div id="bar-lift" style="position:absolute;inset:0 auto 0 0;border-radius:6px;background:#62C39C;width:0%;transition:width .12s linear,background .25s"></div>
+            <div style="position:absolute;top:-3px;bottom:-3px;width:2px;border-radius:2px;background:rgba(255,255,255,.42);left:45%"></div>
+          </div>
+          <div style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7E938A" id="valwrap-lift"><span id="val-lift">—</span><span style="color:#5E7A6E"> t</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px;padding:16px 22px;border-top:1px solid rgba(143,211,188,.1);background:#0B120F">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:#7E938A;white-space:nowrap">LIFT-AXLE&nbsp;DROP</span>
+        <input type="range" id="lift-slider" min="0" max="100" value="0" onInput="{{ onSlide }}" aria-label="Lift axle drop percentage" style="flex:1 1 200px;min-width:160px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9BE0C6;min-width:42px;text-align:right"><span id="lift-pct">0</span>%</span>
+        <button id="lift-btn" type="button" onClick="{{ toggleLift }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:#9BE0C6;color:#0E1714;border:none;border-radius:6px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;transition:opacity .18s" style-hover="opacity:.88">Lower lift axle</button>
+      </div>
+    </div>
+    <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin:12px 0 0">Illustrative axle loads — limits and distribution simplified to show the principle.</p>
+  </div>
+</section>
+
+<!-- ENGINEERING APPROACH -->
+<section data-sec="" data-screen-label="Approach" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">03</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>The engineering approach</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 8px">Four functions: measure, process, display, control.</h2>
+
+    <!-- SIGNAL PATH -->
+    <div data-reveal="" data-flow="" class="sig-path" style="display:flex;align-items:stretch;margin:34px 0 48px">
+      <sc-for list="{{ flow }}" as="f" hint-placeholder-count="4">
+        <div style="display:contents">
+          <div class="sig-node" style="flex:0 0 auto;width:152px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
+            <div style="width:54px;height:54px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--accent);background:var(--surface);flex-shrink:0">{{ f.n }}</div>
+            <div><p style="font-size:14.5px;font-weight:600;margin:0;line-height:1.25">{{ f.t }}</p><p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin:5px 0 0;line-height:1.35">{{ f.sub }}</p></div>
+          </div>
+          <sc-if value="{{ f.sig }}" hint-placeholder-val="{{ true }}">
+            <div class="sig-wire" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;position:relative;align-self:flex-start;margin-top:26px;min-width:48px">
+              <span class="sig-line"></span>
+              <span class="sig-chip" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.03em;color:var(--accent);background:var(--bg);padding:3px 9px;border:1px solid var(--border);border-radius:20px;white-space:nowrap">{{ f.sig }}</span>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:24px">
+      <sc-for list="{{ functions }}" as="fn" hint-placeholder-count="4">
+        <div data-reveal="">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)">{{ fn.n }}</span>
+            <h3 style="font-size:17px;font-weight:600;margin:0">{{ fn.title }}</h3>
+          </div>
+          <p style="font-size:15px;line-height:1.65;color:var(--muted);margin:0">{{ fn.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM OVERVIEW -->
+<section data-sec="" data-screen-label="System overview" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border);background:var(--surface)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">04</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>System overview</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 28px">Four layers, from the suspension to the driver.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+      <sc-for list="{{ layers }}" as="l" hint-placeholder-count="4">
+        <div data-reveal="" style="border:1px solid var(--border);border-radius:6px;background:var(--bg);padding:22px">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin:0 0 14px">{{ l.name }}</p>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ l.items }}" as="it" hint-placeholder-count="4">
+              <li style="font-size:14px;line-height:1.45;color:var(--text)">{{ it }}</li>
+            </sc-for>
+          </ul>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CHALLENGES -->
+<section data-sec="" data-screen-label="Key challenges" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">05</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>Key engineering challenges</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 28px">A truck is not a laboratory.</h2>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="5">
+        <div data-reveal="" data-2col="" style="display:grid;grid-template-columns:280px 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--border)">
+          <h3 style="font-size:17px;font-weight:600;margin:0;color:var(--text)">{{ c.title }}</h3>
+          <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0">{{ c.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE -->
+<section data-sec="" data-screen-label="Hardware" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border);background:var(--surface)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">06</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>Prototype hardware</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 8px">Modular, replaceable subsystems.</h2>
+    <p data-reveal="" style="font-size:17px;line-height:1.78;color:var(--muted);max-width:720px;margin:0 0 28px">The hardware was assembled from separate, replaceable boards rather than one permanent circuit — easier to troubleshoot, modify, and test as the system evolved.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <sc-for list="{{ hardware }}" as="h" hint-placeholder-count="5">
+        <figure data-reveal="" style="margin:0">
+          <img src="{{ h.src }}" alt="{{ h.t }}" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:5px;border:1px solid var(--border);background:var(--bg)">
+          <figcaption style="margin:11px 0 0"><span style="display:block;font-size:14px;font-weight:600">{{ h.t }}</span><span style="display:block;font-size:13px;line-height:1.5;color:var(--muted);margin-top:3px">{{ h.s }}</span></figcaption>
+        </figure>
+      </sc-for>
+    </div>
+    <div data-reveal="" style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:36px 0 14px">
+      <h3 style="font-size:14px;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin:0">Full wiring diagram</h3>
+      <a href="assets/spiff-wiring.png" target="_blank" rel="noopener" style="font-size:13px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:2px;transition:border-color .18s" style-hover="border-color:var(--accent)">View full wiring diagram →</a>
+    </div>
+    <a data-reveal="" href="assets/spiff-wiring.png" target="_blank" rel="noopener" aria-label="Open full-size wiring diagram" style="display:block;border:1px solid var(--border);border-radius:7px;overflow:hidden;background:var(--bg)">
+      <img src="assets/spiff-wiring.png" alt="Power, protection, and control wiring diagram" loading="lazy" style="width:100%;display:block">
+    </a>
+  </div>
+</section>
+
+<!-- CALIBRATION -->
+<section data-sec="" data-screen-label="Calibration" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">07</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>Calibration &amp; initial testing</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 8px">Pressure tracks load — but not perfectly linearly.</h2>
+    <p data-reveal="" style="font-size:17px;line-height:1.78;color:var(--muted);max-width:720px;margin:0 0 32px">Calibration compared suspension pressure against a certified truck scale. Three initial points confirmed that pressure rises predictably with load, while showing the relationship is not a straight line. More evenly distributed load points and repeat measurements are needed before the model can be trusted across the full range.</p>
+
+    <div data-2col="" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,48px);align-items:center">
+      <div data-reveal="">
+        <canvas id="calib-chart" style="width:100%;aspect-ratio:3/2;display:block;border:1px solid var(--border);border-radius:7px;background:var(--surface)" aria-label="Chart of air-suspension pressure versus scale-measured load, three data points"></canvas>
+      </div>
+      <div data-reveal="">
+        <table style="width:100%;border-collapse:collapse;font-size:14px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 8px;border-bottom:1.5px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Air pressure</th>
+              <th style="text-align:right;padding:10px 8px;border-bottom:1.5px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Sensor voltage</th>
+              <th style="text-align:right;padding:10px 8px;border-bottom:1.5px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Scale measurement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ calib }}" as="row" hint-placeholder-count="3">
+              <tr>
+                <td style="padding:12px 8px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace">{{ row.psi }}</td>
+                <td style="padding:12px 8px;border-bottom:1px solid var(--border);text-align:right;font-family:'IBM Plex Mono',monospace">{{ row.v }}</td>
+                <td style="padding:12px 8px;border-bottom:1px solid var(--border);text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--accent)">{{ row.kg }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        <p style="font-size:13.5px;line-height:1.6;color:var(--muted);margin:16px 0 0">Both linear and quadratic models were evaluated. The quadratic follows the three points more closely, but three measurements cannot prove accuracy between or beyond them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTING -->
+<section data-sec="" data-screen-label="Testing completed" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border);background:var(--surface)">
+  <div style="max-width:1000px;margin:0 auto">
+    <p data-reveal="" style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px"><span style="font-size:11px;color:var(--muted)">08</span><span style="flex:1;height:1px;background:var(--border);max-width:48px"></span>Testing completed</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 28px">Verified on the bench, then on the truck.</h2>
+    <div data-2col="" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,48px);align-items:start">
+      <div data-reveal="">
+        <h3 style="font-size:14px;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin:0 0 18px">Bench testing</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ benchTests }}" as="t" hint-placeholder-count="5">
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5"><span style="flex-shrink:0;color:var(--accent);font-family:'IBM Plex Mono',monospace;margin-top:1px">✓</span>{{ t }}</li>
+          </sc-for>
+        </ul>
+      </div>
+      <div data-reveal="">
+        <h3 style="font-size:14px;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin:0 0 18px">Truck testing</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ truckTests }}" as="t" hint-placeholder-count="5">
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5"><span style="flex-shrink:0;color:var(--accent);font-family:'IBM Plex Mono',monospace;margin-top:1px">✓</span>{{ t }}</li>
+          </sc-for>
+        </ul>
+        <figure style="margin:24px 0 0">
+          <img src="assets/spiff-testing.webp" alt="In-vehicle testing of the prototype" loading="lazy" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+          <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin:9px 0 0">Live suspension-pressure logging in the vehicle</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIMITATIONS + NEXT STEPS -->
+<section data-sec="" data-screen-label="Limitations and next steps" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div data-2col="" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start">
+      <div>
+        <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);margin:0 0 14px">Current limitations</p>
+        <h2 data-reveal="" style="font-size:clamp(20px,2.4vw,26px);font-weight:650;letter-spacing:-.01em;margin:0 0 20px">What the prototype does not yet prove.</h2>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ limitations }}" as="l" hint-placeholder-count="6">
+            <div data-reveal="" style="padding:16px 0;border-top:1px solid var(--border)">
+              <h3 style="font-size:15px;font-weight:600;margin:0 0 5px">{{ l.t }}</h3>
+              <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0">{{ l.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px">Next steps</p>
+        <h2 data-reveal="" style="font-size:clamp(20px,2.4vw,26px);font-weight:650;letter-spacing:-.01em;margin:0 0 20px">From integration to calibration and reliability.</h2>
+        <ol style="list-style:none;margin:0;padding:0;counter-reset:step;display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ nextSteps }}" as="s" hint-placeholder-count="6">
+            <li data-reveal="" style="display:flex;gap:14px;align-items:flex-start;font-size:15px;line-height:1.55"><span style="flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);min-width:22px">{{ s.n }}</span><span>{{ s.t }}</span></li>
+          </sc-for>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME -->
+<section data-sec="" data-screen-label="Outcome" style="padding:clamp(48px,7vh,88px) clamp(24px,6vw,80px);border-top:1px solid var(--border);background:var(--surface)">
+  <div style="max-width:760px;margin:0 auto">
+    <p data-reveal="" style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 14px">Project outcome</p>
+    <h2 data-reveal="" style="font-size:clamp(22px,2.8vw,32px);font-weight:650;letter-spacing:-.01em;margin:0 0 20px">A working foundation, with the next priority clearly defined.</h2>
+    <p data-reveal="" style="font-size:17px;line-height:1.8;color:var(--muted);margin:0 0 18px">The prototype showed that air-suspension pressure could be collected, processed, displayed, and compared with known truck-scale measurements using a custom hardware and software platform. It established protected vehicle power, modular sensor acquisition, live monitoring, local logging, a simulated development mode, isolated vehicle control, and a documented calibration workflow.</p>
+    <p data-reveal="" style="font-size:17px;line-height:1.8;color:var(--text);margin:0">The project remains under development. The technical priority has shifted from basic system integration to calibration quality, environmental reliability, and safe vehicle-side validation — alongside a planned strain-gauge load-cell sensing method and a modular design to support different trucks.</p>
+    <a data-reveal="" href="index.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:32px;font-size:15px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:2px;transition:border-color .18s" style-hover="border-color:var(--accent)">← Back to portfolio</a>
+  </div>
+</section>
+
+</div>
+
+<template id="__bundler_thumbnail" data-bg-color="#FAFAF8">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FAFAF8"/>
+    <rect x="360" y="420" width="480" height="60" rx="8" fill="#30423C"/>
+    <rect x="420" y="320" width="360" height="110" fill="#30423C"/>
+    <circle cx="470" cy="500" r="46" fill="#3C3A35"/>
+    <circle cx="730" cy="500" r="46" fill="#3C3A35"/>
+    <circle cx="600" cy="520" r="34" fill="#A6532D"/>
+    <text x="600" y="640" font-family="monospace" font-size="34" text-anchor="middle" fill="#5C5A54">SPIFF · Case Study</text>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#30423C&quot;,&quot;options&quot;:[&quot;#30423C&quot;,&quot;#A6532D&quot;,&quot;#1A1917&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { liftDown: false };
+  animP = 0;
+  animTarget = 0;
+  rafId = null;
+
+  componentDidMount(){
+    this.setupReveal();
+    setTimeout(() => { this.drawLift(this.animP); this.updateReadout(this.animP); this.drawCalib(); }, 160);
+    this._resize = () => { this.drawLift(this.animP); this.drawCalib(); };
+    window.addEventListener('resize', this._resize);
+  }
+  componentWillUnmount(){
+    if (this._resize) window.removeEventListener('resize', this._resize);
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+  }
+
+  reduced(){
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  setupReveal(){
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (this.reduced()) { els.forEach(e => { e.style.transform='none'; }); return; }
+    // opacity stays 1 at all times — content is never gated behind a transition that
+    // can stall in an offscreen iframe. The entrance is a transform-only slide-up.
+    els.forEach(e => { e.style.opacity='1'; e.style.transform='translateY(14px)'; e.style.transition='transform .55s ease'; });
+    const reveal = () => {
+      const vh = window.innerHeight || 800;
+      els.forEach(e => {
+        if (e.dataset.shown) return;
+        if (e.getBoundingClientRect().top < vh * 0.94) { e.style.transform='none'; e.dataset.shown='1'; }
+      });
+    };
+    requestAnimationFrame(reveal);
+    this._reveal = reveal;
+    window.addEventListener('scroll', reveal, { passive: true });
+    window.addEventListener('resize', reveal);
+    setTimeout(() => { els.forEach(e => { e.style.transition='none'; e.style.transform='none'; e.dataset.shown='1'; }); }, 1300);
+  }
+
+  onSlide(e){
+    const p = Math.max(0, Math.min(1, (+e.target.value) / 100));
+    if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null; }
+    this.animP = p;
+    this.drawLift(p);
+    this.updateReadout(p);
+  }
+
+  toggleLift(){
+    this.animTarget = this.animP > 0.5 ? 0 : 1;
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+    const step = () => {
+      const diff = this.animTarget - this.animP;
+      if (Math.abs(diff) < 0.004) { this.animP = this.animTarget; this.drawLift(this.animP); this.updateReadout(this.animP); this.rafId = null; return; }
+      this.animP += diff * 0.12;
+      this.drawLift(this.animP);
+      this.updateReadout(this.animP);
+      this.rafId = requestAnimationFrame(step);
+    };
+    step();
+  }
+
+  updateReadout(p){
+    const WITHIN = '#62C39C', OVER = '#E0875C', DIM = '#7E938A', BRIGHT = '#CFE7DE';
+    const steer = 5.4, drive = 18.6 - (18.6 - 12.4) * p, lift = 6.2 * p;
+    const SCALE = 20;
+    const set = (id, w) => { const el = document.getElementById(id); if (el) el.style.width = Math.min(100, w / SCALE * 100) + '%'; };
+    set('bar-steer', steer); set('bar-drive', drive); set('bar-lift', lift);
+    const driveOver = drive > 17;
+    const driveBar = document.getElementById('bar-drive'); if (driveBar) driveBar.style.background = driveOver ? OVER : WITHIN;
+    const dvw = document.getElementById('valwrap-drive'); if (dvw) dvw.style.color = driveOver ? OVER : BRIGHT;
+    const lvw = document.getElementById('valwrap-lift'); if (lvw) lvw.style.color = p > 0.04 ? BRIGHT : DIM;
+    const vS = document.getElementById('val-steer'); if (vS) vS.textContent = steer.toFixed(1);
+    const vD = document.getElementById('val-drive'); if (vD) vD.textContent = drive.toFixed(1);
+    const vL = document.getElementById('val-lift'); if (vL) vL.textContent = p > 0.04 ? lift.toFixed(1) : '—';
+    const pct = document.getElementById('lift-pct'); if (pct) pct.textContent = Math.round(p * 100);
+    const sl = document.getElementById('lift-slider'); if (sl && document.activeElement !== sl) sl.value = Math.round(p * 100);
+    const btn = document.getElementById('lift-btn'); if (btn) btn.textContent = p > 0.5 ? 'Raise lift axle' : 'Lower lift axle';
+    const st = document.getElementById('lift-status');
+    if (st && st.childNodes[1]) {
+      st.style.color = driveOver ? OVER : WITHIN;
+      st.childNodes[1].textContent = driveOver ? 'DRIVE\u00A0TANDEM\u00A0OVER\u00A0LIMIT' : 'ALL\u00A0AXLES\u00A0WITHIN\u00A0LIMITS';
+    }
+  }
+
+  setLift(down){
+    this.animTarget = down ? 1 : 0;
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+    const step = () => {
+      const diff = this.animTarget - this.animP;
+      if (Math.abs(diff) < 0.004) { this.animP = this.animTarget; this.drawLift(this.animP); this.updateReadout(this.animP); this.rafId = null; return; }
+      this.animP += diff * 0.12;
+      this.drawLift(this.animP);
+      this.updateReadout(this.animP);
+      this.rafId = requestAnimationFrame(step);
+    };
+    step();
+  }
+
+  rr(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  drawLift(p){
+    const c = document.getElementById('lift-anim');
+    if (!c || !c.getContext) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = c.offsetWidth, H = c.offsetHeight;
+    if (!W || !H) { setTimeout(() => this.drawLift(p), 200); return; }
+    c.width = W * dpr; c.height = H * dpr;
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, W, H);
+
+    const LINE = '#7FC4AC', BRIGHT = '#9BE0C6', GRID = 'rgba(143,211,188,.07)', WARN = '#E0875C', DIM = '#5E7A6E', FILL = 'rgba(127,196,172,.06)';
+    const VW = 960, VH = 360;
+    const S = W / VW;
+    ctx.save();
+    ctx.scale(S, S);
+
+    // faint blueprint grid
+    ctx.strokeStyle = GRID; ctx.lineWidth = 1;
+    for (let x = 0; x <= VW; x += 32) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, VH); ctx.stroke(); }
+    for (let y = 0; y <= VH; y += 32) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(VW, y); ctx.stroke(); }
+
+    const groundY = 308, r = 30;
+    const wheelY = groundY - r;
+    const frameY = wheelY - r - 26;
+    const steerX = 158, liftX = 478, driveX1 = 700, driveX2 = 786;
+
+    // ground
+    ctx.strokeStyle = 'rgba(143,211,188,.28)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(40, groundY); ctx.lineTo(VW - 40, groundY); ctx.stroke();
+    ctx.strokeStyle = 'rgba(143,211,188,.14)'; ctx.lineWidth = 1;
+    for (let x = 56; x < VW - 40; x += 26) { ctx.beginPath(); ctx.moveTo(x, groundY); ctx.lineTo(x - 11, groundY + 11); ctx.stroke(); }
+
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+
+    // frame rail
+    ctx.strokeStyle = LINE; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(132, frameY); ctx.lineTo(824, frameY); ctx.stroke();
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(132, frameY + 9); ctx.lineTo(824, frameY + 9); ctx.stroke();
+
+    // dump box (stroked, slight fill + hatch)
+    ctx.beginPath();
+    ctx.moveTo(266, frameY - 6); ctx.lineTo(820, frameY - 6); ctx.lineTo(820, frameY - 96); ctx.lineTo(300, frameY - 118); ctx.closePath();
+    ctx.fillStyle = FILL; ctx.fill();
+    ctx.strokeStyle = LINE; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.strokeStyle = 'rgba(127,196,172,.18)'; ctx.lineWidth = 1.2;
+    for (let x = 340; x < 812; x += 60) { ctx.beginPath(); ctx.moveTo(x, frameY - 10); ctx.lineTo(x, frameY - 100 - (x < 340 ? 0 : 0)); ctx.stroke(); }
+
+    // cab
+    ctx.strokeStyle = LINE; ctx.lineWidth = 2.5;
+    this.rr(ctx, 120, frameY - 92, 118, 98, 12); ctx.fillStyle = FILL; ctx.fill(); ctx.stroke();
+    // window
+    ctx.beginPath();
+    ctx.moveTo(150, frameY - 80); ctx.lineTo(226, frameY - 80); ctx.lineTo(226, frameY - 40); ctx.lineTo(150, frameY - 40);
+    ctx.closePath(); ctx.strokeStyle = BRIGHT; ctx.lineWidth = 1.8; ctx.stroke();
+
+    // lift axle strut (animated)
+    const liftCy = wheelY - (1 - p) * 46;
+    ctx.strokeStyle = (p > 0.04) ? BRIGHT : DIM; ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(liftX, frameY + 9); ctx.lineTo(liftX, liftCy); ctx.stroke();
+    // air-spring coil hint at the pivot
+    ctx.strokeStyle = 'rgba(127,196,172,.5)'; ctx.lineWidth = 1.4;
+    for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.ellipse(liftX, frameY + 18 + i * 5, 10, 3, 0, 0, Math.PI * 2); ctx.stroke(); }
+
+    const wheel = (cx, cy, active) => {
+      ctx.strokeStyle = active ? BRIGHT : LINE; ctx.lineWidth = active ? 3 : 2.5;
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.arc(cx, cy, r * 0.5, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = active ? BRIGHT : LINE;
+      ctx.beginPath(); ctx.arc(cx, cy, 2.4, 0, Math.PI * 2); ctx.fill();
+    };
+    wheel(steerX, wheelY, false);
+    wheel(driveX1, wheelY, false);
+    wheel(driveX2, wheelY, false);
+    wheel(liftX, liftCy, p > 0.04);
+
+    // ground contact glow when lowered
+    if (p > 0.5) {
+      ctx.globalAlpha = (p - 0.5) / 0.5;
+      ctx.fillStyle = 'rgba(155,224,198,.4)';
+      ctx.beginPath(); ctx.ellipse(liftX, groundY + 2, 24, 4, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    // load indicator arrows (downward, length ∝ load)
+    const arrow = (cx, load, limit) => {
+      const over = load > limit;
+      const len = Math.max(0, Math.min(1, load / 20)) * 70;
+      if (len < 4) return;
+      const topY = frameY - 128;
+      const tipY = topY + len;
+      ctx.strokeStyle = over ? WARN : 'rgba(127,196,172,.85)'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(cx, topY); ctx.lineTo(cx, tipY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx - 5, tipY - 6); ctx.lineTo(cx, tipY); ctx.lineTo(cx + 5, tipY - 6); ctx.stroke();
+    };
+    const driveLoad = 18.6 - (18.6 - 12.4) * p;
+    arrow(steerX, 5.4, 6);
+    arrow((driveX1 + driveX2) / 2, driveLoad, 17);
+    arrow(liftX, 6.2 * p, 9);
+
+    // axle labels
+    ctx.font = "500 11px 'IBM Plex Mono', monospace";
+    ctx.fillStyle = DIM; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText('STEER', steerX, groundY + 16);
+    ctx.fillText('LIFT', liftX, groundY + 16);
+    ctx.fillText('DRIVE', (driveX1 + driveX2) / 2, groundY + 16);
+
+    ctx.restore();
+  }
+
+  drawCalib(){
+    const c = document.getElementById('calib-chart');
+    if (!c || !c.getContext) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = c.offsetWidth, H = c.offsetHeight;
+    if (!W || !H) { setTimeout(() => this.drawCalib(), 200); return; }
+    c.width = W * dpr; c.height = H * dpr;
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, W, H);
+
+    const ACCENT = '#30423C', MUTED = '#5C5A54', BORDER = '#E7E6E1', DIM = '#B5B3AC';
+    const padL = 52, padR = 18, padT = 20, padB = 40;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const x0 = padL, y0 = padT;
+
+    const pts = [ { psi: 40, kg: 3660 }, { psi: 60, kg: 5120 }, { psi: 78, kg: 5710 } ];
+    const xmin = 30, xmax = 85, ymin = 3000, ymax = 6000;
+    const px = (psi) => x0 + (psi - xmin) / (xmax - xmin) * plotW;
+    const py = (kg) => y0 + plotH - (kg - ymin) / (ymax - ymin) * plotH;
+
+    // gridlines + y labels
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 1;
+    ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.fillStyle = DIM;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let kg = 3000; kg <= 6000; kg += 1000) {
+      const y = py(kg);
+      ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x0 + plotW, y); ctx.stroke();
+      ctx.fillText((kg / 1000) + 't', x0 - 8, y);
+    }
+    // x labels
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let psi = 40; psi <= 80; psi += 20) {
+      ctx.fillText(psi + ' PSI', px(psi), y0 + plotH + 8);
+    }
+
+    // axes
+    ctx.strokeStyle = '#C9C7C0'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x0, y0 + plotH); ctx.lineTo(x0 + plotW, y0 + plotH); ctx.stroke();
+
+    // quadratic-ish curve through the 3 points (smooth)
+    ctx.strokeStyle = ACCENT; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(px(pts[0].psi), py(pts[0].kg));
+    ctx.quadraticCurveTo(px(pts[1].psi), py(pts[1].kg) - 36, px(pts[2].psi), py(pts[2].kg));
+    ctx.stroke();
+
+    // linear reference (dashed) from first to last
+    ctx.strokeStyle = DIM; ctx.lineWidth = 1.25; ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(px(pts[0].psi), py(pts[0].kg)); ctx.lineTo(px(pts[2].psi), py(pts[2].kg)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // data points
+    pts.forEach(pt => {
+      ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(px(pt.psi), py(pt.kg), 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = ACCENT; ctx.beginPath(); ctx.arc(px(pt.psi), py(pt.kg), 4, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // legend
+    ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = ACCENT; ctx.fillText('— measured', x0 + 8, y0 + 10);
+    ctx.fillStyle = DIM; ctx.fillText('-- linear', x0 + 88, y0 + 10);
+  }
+
+  renderVals(){
+    return {
+      toggleLift: () => this.toggleLift(),
+      onSlide: (e) => this.onSlide(e),
+
+      problems: [
+        { n: '01', t: 'Overloaded axles and roadside weight violations' },
+        { n: '02', t: 'Accelerated tire and suspension wear' },
+        { n: '03', t: 'Compromised handling and braking' },
+        { n: '04', t: 'Guesswork in manual lift-axle adjustments' },
+        { n: '05', t: 'Existing systems are costly, hard to repair, or limited' }
+      ],
+
+      flow: [
+        { n: '01', t: 'Pressure sensors', sub: 'air-suspension tap', sig: '0.5–4.5 V' },
+        { n: '02', t: 'ADS1115 ADC', sub: '16-bit acquisition', sig: 'digital · I²C' },
+        { n: '03', t: 'Raspberry Pi', sub: 'calibrate · filter · log', sig: 't / axle' },
+        { n: '04', t: 'Driver + control', sub: 'touchscreen · 12V relay', sig: null }
+      ],
+
+      functions: [
+        { n: '01', title: 'Measure', desc: 'Pressure transducers tap the air-suspension circuits. Air-spring pressure rises with axle load, so the analog voltage can be calibrated against known scale weights.' },
+        { n: '02', title: 'Process', desc: 'ADS1115 converters digitize the signals for the Raspberry Pi, which converts voltage to pressure, applies the calibration model, filters fluctuations, detects faults, and logs data.' },
+        { n: '03', title: 'Display', desc: 'A seven-inch touchscreen shows estimated weight per axle or group, suspension pressure, lift-axle position, system status, and warnings near configured thresholds.' },
+        { n: '04', title: 'Control', desc: 'An isolated relay interface drives the 12V lift-axle circuit. It returns to a safe, de-energized state if the controller loses power or the software stops.' }
+      ],
+
+      layers: [
+        { name: 'Sensor layer', items: ['Air-suspension pressure transducers', 'Lift-axle position sensors', 'Temperature & enclosure monitoring', 'Optional GPS, motion & electrical monitoring'] },
+        { name: 'Processing layer', items: ['Raspberry Pi controller', 'ADS1115 analog acquisition', 'Calibration & filtering', 'Data logging & fault detection', 'Control-state logic'] },
+        { name: 'Vehicle interface', items: ['Fused 12V input', 'Transient protection', '12V→5V DC conversion', 'Optically isolated inputs', 'Relay & solenoid outputs', 'Ignition-controlled shutdown'] },
+        { name: 'Driver interface', items: ['Touchscreen dashboard', 'Estimated axle weights', 'Pressure readings', 'Lift-axle status', 'Visual & audible warnings'] }
+      ],
+
+      challenges: [
+        { title: 'Operating from vehicle power', desc: 'A truck electrical system is noisy and unstable. The prototype uses source-side fusing, transient-voltage suppression, bulk capacitance, regulated DC conversion, isolated control signals, and relay flyback protection. A controlled shutdown circuit lets the Pi close files before power is removed.' },
+        { title: 'Producing useful estimates from pressure', desc: 'Pressure relates to load but not perfectly linearly — geometry, suspension position, temperature, road movement, braking, and installation all influence it. The system uses vehicle-specific calibration rather than a universal conversion.' },
+        { title: 'Working in a harsh environment', desc: 'Vibration, winter cold, summer cab heat, moisture, road salt, and repeated ignition cycles all apply. The enclosure, wiring, and mounting were designed to stay accessible for inspection and repair; production-level durability validation is still required.' },
+        { title: 'Developing without constant truck access', desc: 'Truck time was limited, so the software runs in both physical and simulated sensor modes. Simulation generates realistic pressure changes, noise, drift, and relay states through the same processing path — letting the interface and logging mature off-vehicle.' },
+        { title: 'Maintaining a safe control state', desc: 'The lift axle cannot depend on software staying alive. Loss of controller power de-energizes the output, simulation-mode commands cannot reach the vehicle, sensor faults can block automatic commands, and position sensors confirm whether a commanded movement occurred.' }
+      ],
+
+      hardware: [
+        { src: 'assets/spiff-enclosure.png', t: 'Chassis electronics enclosure', s: 'Raspberry Pi, protected power, sensor interfaces, and control outputs.' },
+        { src: 'assets/spiff-signal-board.png', t: 'Pressure-sensor interface board', s: 'ADC input conditioning and protected terminals.' },
+        { src: 'assets/spiff-boards.png', t: 'Relay & isolation hardware', s: 'Opto-isolated interface to the truck 12V circuits.' },
+        { src: 'assets/spiff-hx711.png', t: 'Hand-built acquisition boards', s: 'Modular analog acquisition for sensor inputs.' },
+        { src: 'assets/spiff-solder.png', t: 'Screw-terminal signal board', s: 'Point-to-point wiring for removable sensors.' }
+      ],
+
+      calib: [
+        { psi: '40 PSI', v: '1.220 V', kg: '3,660 kg' },
+        { psi: '60 PSI', v: '1.640 V', kg: '5,120 kg' },
+        { psi: '78 PSI', v: '1.895 V', kg: '5,710 kg' }
+      ],
+
+      benchTests: [
+        'Verified regulated power output',
+        'Confirmed ADC channel operation',
+        'Tested sensor-voltage conversion',
+        'Verified I²C device communication',
+        'Tested relay switching and safe state after power loss',
+        'Exercised ignition shutdown logic',
+        'Tested simulated and physical sensor modes',
+        'Monitored Pi operating temperature'
+      ],
+      truckTests: [
+        'Connected the pressure-sensing system to the vehicle',
+        'Collected live suspension-pressure readings',
+        'Compared sensor output against known scale weights',
+        'Identified nonlinear pressure response',
+        'Confirmed the full signal path operated in the vehicle',
+        'Identified enclosure, wiring, and calibration improvements'
+      ],
+
+      limitations: [
+        { t: 'Limited calibration data', d: 'Three points are not enough; five to seven more load points plus repeats are needed.' },
+        { t: 'Temperature effects', d: 'Pressure shifts with temperature at constant load; a validated correction model is not yet built.' },
+        { t: 'Dynamic vehicle movement', d: 'Road impacts, braking, and cornering cause short-term fluctuations; moving estimates remain approximate.' },
+        { t: 'Axle-group measurement', d: 'One pressure connection estimates an axle group, not individual left/right wheel loads.' },
+        { t: 'Vehicle-specific calibration', d: 'Calibration is specific to this truck, suspension, and installation.' },
+        { t: 'Durability & certification pending', d: 'Automotive durability validation is still underway; SPIF certification and legal-weighing approval are planned milestones on the path to a production unit.' }
+      ],
+
+      nextSteps: [
+        { n: '01', t: 'Collect additional calibration measurements across the full range' },
+        { n: '02', t: 'Test repeated loads to quantify measurement consistency' },
+        { n: '03', t: 'Measure cold- and warm-weather drift' },
+        { n: '04', t: 'Improve calibration and filtering models' },
+        { n: '05', t: 'Finalize pressure-sensor and axle-position installations' },
+        { n: '06', t: 'Validate automatic control fail-safes' },
+        { n: '07', t: 'Improve enclosure, connectors, and vibration resistance' },
+        { n: '08', t: 'Run extended truck-side logging over multiple sessions' },
+        { n: '09', t: 'Compare pressure estimates with a strain-based sensing method' },
+        { n: '10', t: 'Review regulatory and validation requirements for a commercial system' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
